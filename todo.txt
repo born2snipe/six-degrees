@@ -1,0 +1,4 @@
+- handle queueing...
+- generate file based on SqsListener annotation
+- generate a "database" from a RabbitMQ `definition.json` file
+-
