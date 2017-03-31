@@ -1,0 +1,4 @@
+rootProject.name = 'six-degrees'
+include ':six-degrees-core'
+
+project(':six-degrees-core').projectDir = "$rootDir/core" as File

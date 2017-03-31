@@ -3,3 +3,6 @@ target
 *.iml
 *.png
 .DS_Store
+.gradle
+build
+
