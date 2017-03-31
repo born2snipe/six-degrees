@@ -1,4 +1,6 @@
 rootProject.name = 'six-degrees'
-include ':six-degrees-core'
 
-project(':six-degrees-core').projectDir = "$rootDir/core" as File
+include ':six-degrees-annotations'
+include ':six-degrees-chart-generator'
+include ':six-degrees-core'
+include ':six-degrees-gradle-plugin'
