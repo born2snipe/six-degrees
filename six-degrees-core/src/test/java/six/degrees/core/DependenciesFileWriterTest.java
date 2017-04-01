@@ -31,22 +31,22 @@ import java.util.HashSet;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 
-public class DependenciesFileRepositoryTest {
+public class DependenciesFileWriterTest {
     @Rule
     public TemporaryFolder tmp = new TemporaryFolder();
-    private DependenciesFileRepository repository;
+    private DependenciesFileWriter repository;
 
 
     @Before
     public void setUp() throws Exception {
-        repository = new DependenciesFileRepository();
+        repository = new DependenciesFileWriter();
     }
 
     @Test
     public void shouldBeAbleToWriteAnEmptyFile() throws IOException {
         File file = tmp.newFile();
 
-        repository.save(new Dependencies(), file);
+        repository.write(new Dependencies(), file);
 
         JsonNode jsonNode = new ObjectMapper().readTree(file);
         JsonNode webServicesDepsNode = jsonNode.get("webServiceDependencies");
@@ -62,7 +62,7 @@ public class DependenciesFileRepositoryTest {
         socials.addWebServiceDependency("app-1");
         socials.addWebServiceDependency("app-2");
 
-        repository.save(socials, file);
+        repository.write(socials, file);
 
         JsonNode jsonNode = new ObjectMapper().readTree(file);
         JsonNode webServicesDepsNode = jsonNode.get("webServiceDependencies");

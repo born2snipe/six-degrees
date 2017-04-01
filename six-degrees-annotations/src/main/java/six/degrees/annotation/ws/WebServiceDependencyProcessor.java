@@ -15,7 +15,7 @@ package six.degrees.annotation.ws;
 
 import org.kohsuke.MetaInfServices;
 import six.degrees.core.Dependencies;
-import six.degrees.core.DependenciesFileRepository;
+import six.degrees.core.DependenciesFileWriter;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Processor;
@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 @MetaInfServices(Processor.class)
 public class WebServiceDependencyProcessor extends AbstractProcessor {
     private static final String OUTPUT_FILE = "META-INF/six-degrees.json";
-    private DependenciesFileRepository fileRepository = new DependenciesFileRepository();
+    private DependenciesFileWriter fileRepository = new DependenciesFileWriter();
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
@@ -72,7 +72,7 @@ public class WebServiceDependencyProcessor extends AbstractProcessor {
             for (String entry : entries) {
                 socials.addWebServiceDependency(entry);
             }
-            fileRepository.save(socials, file.openOutputStream());
+            fileRepository.write(socials, file.openOutputStream());
         } catch (IOException e) {
             processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, e.toString());
         }

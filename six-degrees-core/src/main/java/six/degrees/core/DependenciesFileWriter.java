@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class DependenciesFileRepository {
+public class DependenciesFileWriter {
     private ObjectMapper objectMapper = new ObjectMapper();
 
     public Dependencies read(File file) {
@@ -43,15 +43,15 @@ public class DependenciesFileRepository {
         }
     }
 
-    public void save(Dependencies dependencies, File outputFile) {
+    public void write(Dependencies dependencies, File outputFile) {
         try (OutputStream output = new BufferedOutputStream(new FileOutputStream(outputFile))) {
-            save(dependencies, output);
+            write(dependencies, output);
         } catch (IOException e) {
             throw new RuntimeException("A problem occurred trying to write the file: " + outputFile, e);
         }
     }
 
-    public void save(Dependencies dependencies, OutputStream outputFile) {
+    public void write(Dependencies dependencies, OutputStream outputFile) {
         try {
             objectMapper.writeValue(outputFile, dependencies);
         } catch (IOException e) {

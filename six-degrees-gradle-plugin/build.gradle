@@ -1,8 +1,23 @@
 apply plugin: 'groovy'
+apply plugin: 'java-gradle-plugin'
+
+task createClasspathManifest {
+    def outputDir = file("$buildDir/$name")
+
+    inputs.files sourceSets.main.runtimeClasspath
+    outputs.dir outputDir
+
+    doLast {
+        outputDir.mkdirs()
+        file("$outputDir/plugin-classpath.txt").text = sourceSets.main.runtimeClasspath.join("\n")
+    }
+}
 
 dependencies {
     compile project(":six-degrees-chart-generator")
     compile gradleApi()
+    compile localGroovy()
 
     testCompile gradleTestKit()
+    testRuntime files(createClasspathManifest)
 }

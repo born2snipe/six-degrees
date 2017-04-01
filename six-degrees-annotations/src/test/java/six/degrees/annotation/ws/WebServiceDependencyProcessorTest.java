@@ -19,7 +19,7 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Ignore;
 import org.junit.Test;
 import six.degrees.core.Dependencies;
-import six.degrees.core.DependenciesFileRepository;
+import six.degrees.core.DependenciesFileWriter;
 
 import javax.tools.JavaFileObject;
 import javax.tools.StandardLocation;
@@ -100,7 +100,7 @@ public class WebServiceDependencyProcessorTest {
         Optional<JavaFileObject> file = compilation.generatedFile(StandardLocation.CLASS_OUTPUT, "META-INF/six-degrees.json");
         assertTrue("No file found @ META-INF/six-degrees.json", file.isPresent());
         try (InputStream input = file.get().openInputStream()) {
-            Dependencies socials = new DependenciesFileRepository().read(input);
+            Dependencies socials = new DependenciesFileWriter().read(input);
             assertEquals(new HashSet<>(expectedWebServiceNames), socials.getWebServiceDependencies());
         } catch (IOException e) {
             throw new RuntimeException(e);
