@@ -31,15 +31,15 @@ import java.util.HashSet;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 
-public class DependenciesFileWriterTest {
+public class DependenciesFileHandlerTest {
     @Rule
     public TemporaryFolder tmp = new TemporaryFolder();
-    private DependenciesFileWriter repository;
+    private DependenciesFileHandler repository;
 
 
     @Before
     public void setUp() throws Exception {
-        repository = new DependenciesFileWriter();
+        repository = new DependenciesFileHandler();
     }
 
     @Test

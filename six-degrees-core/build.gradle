@@ -4,4 +4,5 @@ dependencies {
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.8.7'
 
     testCompile group: 'commons-io', name: 'commons-io', version: '2.0.1'
+    testCompile group: 'com.github.born2snipe', name: 'zipunit', version: '0.1'
 }

@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class DependenciesFileWriter {
+public class DependenciesFileHandler {
     private ObjectMapper objectMapper = new ObjectMapper();
 
     public Dependencies read(File file) {
