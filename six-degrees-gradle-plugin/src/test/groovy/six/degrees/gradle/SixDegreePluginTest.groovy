@@ -1,28 +1,30 @@
 package six.degrees.gradle
 
 import org.gradle.testkit.runner.BuildResult
-import org.gradle.testkit.runner.GradleRunner
-import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.TemporaryFolder
+import six.degrees.gradle.support.GradleProjectBuilder
+import six.degrees.gradle.support.GradleTest
 
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
-class SixDegreePluginTest {
-    @Rule
-    public TemporaryFolder tmp = new TemporaryFolder();
+class SixDegreePluginTest extends GradleTest {
+    @Test
+    void x() {
+        new GradleProjectBuilder()
+                .javaProject()
+                .addCompileDependency("junit:junit:4.12")
+                .addCompileDependency("org.mockito:mockito-all:1.10.19")
+                .build(tmp.root)
 
+        BuildResult result = executeGradleTask("build")
+        assert result.task(":generateSixDegreesFile").getOutcome() == SUCCESS
+    }
 
     @Test
     void the_generate_six_degree_file_task_should_run_when_processResources_is_executed_groovy_project() {
-        File buildFile = tmp.newFile("build.gradle")
-        buildFile.text = """
-            plugins {
-               id "six-degrees"
-            }
-
-            apply plugin: 'groovy'
-        """
+        new GradleProjectBuilder()
+                .groovyProject()
+                .build(tmp.root)
 
         BuildResult result = executeGradleTask("processResources")
         assert result.task(":generateSixDegreesFile").getOutcome() == SUCCESS
@@ -30,14 +32,9 @@ class SixDegreePluginTest {
 
     @Test
     void the_generate_six_degree_file_task_should_run_when_processResources_is_executed_java_project() {
-        File buildFile = tmp.newFile("build.gradle")
-        buildFile.text = """
-            plugins {
-               id "six-degrees"
-            }
-
-            apply plugin: 'java'
-        """
+        new GradleProjectBuilder()
+                .javaProject()
+                .build(tmp.root)
 
         BuildResult result = executeGradleTask("processResources")
         assert result.task(":generateSixDegreesFile").getOutcome() == SUCCESS
@@ -45,23 +42,12 @@ class SixDegreePluginTest {
 
     @Test
     void should_have_the_generate_six_degree_file_task_by_default() {
-        File buildFile = tmp.newFile("build.gradle")
-        buildFile.text = """
-            plugins {
-               id "six-degrees"
-            }
-        """
+        new GradleProjectBuilder()
+                .build(tmp.root)
 
         BuildResult result = executeGradleTask("generateSixDegreesFile")
         assert result.output.contains("generateSixDegreesFile")
         assert result.task(":generateSixDegreesFile").getOutcome() == SUCCESS
     }
 
-    private BuildResult executeGradleTask(String... args) {
-        GradleRunner.create()
-                .withDebug(true)
-                .withProjectDir(tmp.getRoot())
-                .withPluginClasspath(PluginClasspath.get())
-                .withArguments(args).build()
-    }
 }

@@ -1,6 +1,6 @@
 dependencies {
     compile project(":six-degrees-core")
-    compile group: 'org.kohsuke.metainf-services', name: 'metainf-services', version:'1.1'
+    compileOnly group: 'org.kohsuke.metainf-services', name: 'metainf-services', version: '1.1'
 
     testCompile group: 'com.google.testing.compile', name: 'compile-testing', version:'0.10'
     testCompile group: 'commons-io', name: 'commons-io', version: '2.0.1'

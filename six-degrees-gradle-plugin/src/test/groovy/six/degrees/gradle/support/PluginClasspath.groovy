@@ -1,4 +1,4 @@
-package six.degrees.gradle;
+package six.degrees.gradle.support;
 
 public class PluginClasspath {
     static Collection<File> get() {

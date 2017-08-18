@@ -7,22 +7,20 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class DependencyScanner {
     public Dependencies findAndMerge(File... filesInClassPath) {
-        String[] filePaths = Arrays
+        return findAndMerge(Arrays
                 .stream(filesInClassPath)
                 .map(File::getAbsolutePath)
-                .collect(Collectors.toList())
-                .toArray(new String[0]);
-
-        return findAndMerge(filePaths);
+                .collect(Collectors.toList()));
     }
 
-    private Dependencies findAndMerge(String... filesInClassPath) {
+    public Dependencies findAndMerge(Collection<String> filesInClassPath) {
         URLClassLoader classloader = createClassLoaderWith(filesInClassPath);
         Dependencies dependencies = new Dependencies();
         DependenciesFileHandler dependenciesFileHandler = new DependenciesFileHandler();
@@ -42,18 +40,17 @@ public class DependencyScanner {
         return dependencies;
     }
 
-    private URLClassLoader createClassLoaderWith(String[] filesInClassPath) {
+    private URLClassLoader createClassLoaderWith(Collection<String> filesInClassPath) {
         URL[] urls = convertFilePathsToUrls(filesInClassPath);
         return new URLClassLoader(urls, null);
     }
 
-    private URL[] convertFilePathsToUrls(String[] filesInClassPath) {
-        return Arrays.stream(filesInClassPath)
+    private URL[] convertFilePathsToUrls(Collection<String> filesInClassPath) {
+        return filesInClassPath.stream()
                 .map(addUrlPrefix())
                 .map(addEndingSlashToPathAsNeeded())
                 .map(buildUrl())
-                .collect(Collectors.toList())
-                .toArray(new URL[0]);
+                .toArray(URL[]::new);
     }
 
     private Function<String, URL> buildUrl() {

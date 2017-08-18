@@ -4,3 +4,6 @@ include ':six-degrees-annotations'
 include ':six-degrees-chart-generator'
 include ':six-degrees-core'
 include ':six-degrees-gradle-plugin'
+
+include 'example/client-sdk'
+include 'example/app-depends-on-client-sdk'
